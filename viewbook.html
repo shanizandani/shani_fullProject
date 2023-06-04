@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f8f8;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <title>Books</title>
+</head>
+
+<body>
+    <div id="bookk">
+        <h1>ALL BOOKS</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Writer</th>
+                    <th>Year Published</th>
+                    <th>Book Loan</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="bookList">
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const MY_SERVER = 'http://127.0.0.1:5000';
+        const bookList = document.getElementById('bookList');
+
+        const getData = () => {
+            axios.get(MY_SERVER + "/books").then(response => {
+                const data = response.data;
+                for (let index = 0; index < data.length; index++) {
+                    let obj = data[index];
+                    bookList.innerHTML += `<tr>
+                        <td>${obj.bookname}</td>
+                        <td>${obj.writer}</td>
+                        <td>${obj.year_published}</td>
+                        <td>${getBookLoanDuration(obj.book_loan)}</td>
+                        <td>
+                            <button onclick="deleteBook(${obj.id})">DELETE</button>
+                        </td>
+                    </tr>`;
+                }
+            });
+        };
+
+        function getBookLoanDuration(duration) {
+            switch (duration) {
+                case 1:
+                    return "up to 10 days";
+                case 2:
+                    return "up to 5 days";
+                case 3:
+                    return "up to 2 days";
+                default:
+                    return "";
+            }
+        }
+
+        async function deleteBook(bookId) {
+            try {
+                const response = await axios.delete(`${MY_SERVER}/books/delete/${bookId}`);
+                console.log(response.data);
+                if (response.status === 200) {
+                    alert("Book deleted successfully!");
+                    displayBooks();
+                } else {
+                    alert("Error deleting book.");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Error deleting book.");
+            }
+        }
+
+        getData();
+    </script>
+</body>
+
+</html>
+
+
+
+
+

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+      background-color: #8B4513; /* Dark brown color */
+    }
+    
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #dcbb9f;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }
+
+    /* Set light brown background color for the whole page */
+    body {
+      background-color: #f5deb3;
+    }
+
+    .logo-image {
+      max-height: 40px; /* Adjust the value as needed */
+      width: auto;
+      display: inline-block;
+    }
+
+    .navbar-brand {
+      padding: 5px 15px; /* Adjust the padding as needed */
+    }
+
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="index.html">
+        <img src="media/pexels-pixabay-48020.jpg" alt="Home" class="logo-image">
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="newCustomer.html" target="main">add a new Customer</a></li>
+        <li><a href="newBook.html" target="main">add a new book/return book</a></li>
+        <li><a href="newLoan.html" target="main">add a new loan</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <form class="navbar-form navbar-right" id="searchForm" action="#">
+        <div class="form-group">
+          <input class="form-control" type="text" id="searchInput" placeholder="Search" aria-label="Search">
+        </div>
+        <button class="btn btn-default" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid text-center">    
+  
+    <div class="row content">
+    
+      <div class="col-sm-2 sidenav">
+        
+        <p><a href="viewCustomers.html" target="main">view Customers</a></p>
+        <p><a href="viewbook.html" target="main">view books</a></p>
+        <p><a href="viewloan.html" target="main">view loans</a></p>
+      </div>
+  
+      <div class="col-sm-8 text-left"> 
+        <h1>Wisdom Junction Library</h1>
+        <button type="button" class="btn btn-primary" id="toggleLibraryText">ABOUT...</button>
+        <div id="libraryText" style="display: none;">
+          <p>We are proud to be a highly successful library that plays a crucial role in helping individuals and communities thrive through the power of books and knowledge.</p>
+          <h3>Our Commitment</h3>
+          <p>At Your Library, our commitment to excellence and service drives us to provide valuable resources and support to librarians like you who play a vital role in shaping minds and fostering a love for learning.</p>
+          <h3>Services and Resources</h3>
+          <p>We offer an extensive book collection spanning various genres, subjects, and languages. Our state-of-the-art facilities provide a comfortable and efficient environment for your work. Our team of experienced librarians is here to offer professional support and guidance.</p>
+        </div>
+
+        <iframe height="400" width="800" name="main"></iframe>
+       
+        <div id="searchResults"></div> <!-- Add a div to display the search results -->
+      </div>
+      <div class="col-sm-2 sidenav">
+
+          <div class="well">
+            <p>
+              <img src="media/pexels-pixabay-256424.jpg" class="square-image">
+            </p>
+          </div>
+          <div class="well">
+            <p>
+              <img src="media/pexels-volkan-vardar-6135340.jpg" class="square-image">
+            </p>
+          </div>
+        </div>
+        
+        <style>
+          .square-image {
+            max-width: 100%;
+            height: auto;
+            object-fit: cover;
+            width: 100%;
+            aspect-ratio: 1/1; /* This maintains the square aspect ratio */
+          }
+        </style>
+        
+        
+  
+  <footer class="container-fluid text-center">
+    <p>כל הזכויות שמורות לשני זנדני</p>
+  </footer>
+
+
+
+
+<script>
+const MY_SERVER = 'http://127.0.0.1:5000';
+
+ document.getElementById("toggleLibraryText").addEventListener("click", function() {
+    const libraryText = document.getElementById("libraryText");
+    if (libraryText.style.display === "none") {
+      libraryText.style.display = "block";
+    } else {
+      libraryText.style.display = "none";
+    }
+  });
+
+  const navbarLinks = document.getElementsByClassName("navbar-link");
+  for (let i = 0; i < navbarLinks.length; i++) {
+    navbarLinks[i].addEventListener("click", function(event) {
+      event.preventDefault();
+    });
+  }
+
+
+
+
+
+    document.getElementById("searchForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+  
+      const searchQuery = document.getElementById("searchInput").value;
+  
+      axios.get(`${MY_SERVER}/search`, {
+          params: {
+            query: searchQuery
+          }
+        })
+        .then(function(response) {
+          const results = response.data;
+  
+          const searchResultsHTML = generateSearchResultsHTML(results);
+  
+          document.getElementById("searchResults").innerHTML = searchResultsHTML;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    });
+  
+    function generateSearchResultsHTML(results) {
+      let html = "";
+  
+      if (results.customers.length > 0) {
+        html += "<h3>Customer Results:</h3>";
+  
+        results.customers.forEach(function(customer) {
+          html += "<div>";
+          html += "<p>Name: " + customer.name + "</p>";
+          html += "<p>City: " + customer.city + "</p>";
+          html += "<p>Age: " + customer.age + "</p>";
+          html += "</div>";
+        });
+      }
+  
+      if (results.books.length > 0) {
+        html += "<h3>Book Results:</h3>";
+  
+        results.books.forEach(function(book) {
+          html += "<div>";
+          html += "<p>Book Name: " + book.bookname + "</p>";
+          html += "<p>Author: " + book.writer + "</p>";
+          html += "<p>Year Published: " + book.year_published + "</p>";
+          html += "<p>Book Loan: " + book.book_loan + "</p>";
+          html += "</div>";
+        });
+      }
+  
+      if (results.customers.length === 0 && results.books.length === 0) {
+        html += "<p>No results found.</p>";
+      }
+  
+      return html;
+    }
+  </script>
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

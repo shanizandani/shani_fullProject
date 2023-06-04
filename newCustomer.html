@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <title>Library Management System</title>
+    
+</head>
+
+<body>
+    
+    <!-- Add a new customer -->
+    <div id="customerssss"></div>
+
+    <h2>Add a new customer</h2>
+    Name:<input type="text" id="customer_name" placeholder="ENTER YOUR NAME" required>
+    City:<input type="text" id="customer_city" placeholder="ENTER YOUR CITY" required>
+    Age:<input type="number" id="customer_age" placeholder="ENTER YOUR AGE" required>
+    <button onclick="newCustomer()">Add new Customer</button> <br> <br> <br>
+    <a href="viewCustomers.html">View All Customers</a>
+    <!-- <a href="index.html">Home Page</a> -->
+
+    <script>
+      const MY_SERVER = 'http://127.0.0.1:5000';
+  
+      const newCustomer = async () => {
+          let data = {
+              name: customer_name.value,
+              city: customer_city.value,
+              age: customer_age.value
+          };
+  
+          try {
+              const response = await axios.post(`${MY_SERVER}/customers/new`, data);
+              console.log(response.data); // Optional: handle the response as needed
+          } catch (error) {
+              console.error(error); // Optional: handle the error as needed
+          }
+      }
+
+      
+  </script>
+  
+</body>
+
+</html>

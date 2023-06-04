@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <title>Library Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="submit"] {
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Add New Loan</h2>
+    <form id="loanForm">
+        <label for="custName">Customer Name:</label>
+        <input type="text" id="custName" name="custName" required><br><br>
+
+        <label for="bookName">Book Name:</label>
+        <input type="text" id="bookName" name="bookName" required><br><br>
+
+        <label for="loanDate">Loan Date:</label>
+        <input type="date" id="loanDate" name="loanDate" required><br><br>
+
+        <button type="submit">Add Loan</button>
+    </form>
+
+    <script>
+
+     const MY_SERVER = 'http://127.0.0.1:5000';
+        document.getElementById('loanForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var custName = document.getElementById('custName').value;
+            var bookName = document.getElementById('bookName').value;
+            var loanDate = document.getElementById('loanDate').value;
+
+            var loanData = {
+                cust_name: custName,
+                book_name: bookName,
+                loan_date: loanDate
+            };
+
+            axios.post(`${MY_SERVER}/loans/new`, loanData)
+    // .then(function(response) {
+    //     alert('Loan added successfully.');
+    //     // You can perform additional actions or redirect to another page here
+    // })
+    // .catch(function(error) {
+    //     if (error.response && error.response.data) {
+    //         alert('Error adding loan: ' + error.response.data.error);
+    //     } else {
+    //         alert('Error adding loan: ' + error.message);
+    //     }
+    // });
+
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
